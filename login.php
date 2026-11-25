@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-card">
         <h1>rr_sari_sari_pos</h1>
-        <p class="subtitle">Poblacion, Inabanga, Bohol</p>
+        <p class="subtitle">Ilaud, Inabanga, Bohol</p>
 
         <?php if ($error): ?>
             <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>

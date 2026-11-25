@@ -112,11 +112,11 @@ $lowStockCount = $conn->query("SELECT COUNT(*) AS cnt FROM products WHERE stock 
                 <div class="receipt">
                     <div class="center">
                         <strong>rr_sari_sari_pos</strong><br>
-                        Poblacion, Inabanga, Bohol<br>
+                        Ilaud, Inabanga, Bohol<br>
                         <small><?= $viewTxn['transaction_code'] ?></small>
                     </div>
                     <div class="line"></div>
-                    <div><?= date('M d, Y h:i A', strtotime($viewTxn['transaction_date'])) ?></div>
+                    <div><?= date(' d, Y h:i A', strtotime($viewTxn['transaction_date'])) ?></div>
                     <div class="line"></div>
                     <?php foreach ($viewItems as $item): ?>
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">

@@ -67,7 +67,7 @@ $items = $conn->query("SELECT * FROM transaction_items WHERE transaction_id = $i
     <div class="receipt">
         <div class="center">
             <div class="store-name">RR SARI-SARI STORE</div>
-            <div class="store-addr">Poblacion, Inabanga, Bohol</div>
+            <div class="store-addr">Ilaud, Inabanga, Bohol</div>
         </div>
         <div class="line"></div>
         <div class="row">
