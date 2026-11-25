@@ -1,76 +1,173 @@
--- RR Sari-Sari Store POS Database
-CREATE DATABASE IF NOT EXISTS rr_sari_sari_pos;
+# RR Sari-Sari Store POS Database
+
+A simple and user-friendly **Point of Sale (POS) Database System** designed for RR Sari-Sari Store. This database manages user accounts, product inventory, sales transactions, and transaction details using MySQL.
+
+## 📌 Project Overview
+
+The RR Sari-Sari Store POS Database is designed to help manage daily store operations efficiently. It provides a structured database for storing product information, monitoring stock levels, recording customer purchases, and managing sales transactions.
+
+## ✨ Features
+
+- **User Management** – Stores login credentials and staff information.
+- **Product Management** – Stores product names, prices, and available stock.
+- **Inventory Tracking** – Monitors product quantities.
+- **Sales Transactions** – Records transaction codes, total amounts, payments, and change.
+- **Transaction Details** – Stores purchased products, quantities, unit prices, and subtotals.
+- **Automatic Timestamps** – Records creation dates and transaction dates.
+- **Sample Products** – Includes 25 sample sari-sari store products.
+
+## 🛠️ Technologies Used
+
+- **Database:** MySQL
+- **Language:** SQL
+- **Database Management Tool:** MySQL Workbench / phpMyAdmin
+- **Database Name:** `rr_sari_sari_pos`
+
+## 🗄️ Database Structure
+
+The database consists of four main tables:
+
+| Table Name | Description |
+|---|---|
+| `users` | Stores user login credentials and staff information. |
+| `products` | Stores product names, prices, and stock quantities. |
+| `transactions` | Stores sales transaction records. |
+| `transaction_items` | Stores individual products included in each transaction. |
+
+## 🔐 Default Login Credentials
+
+The database includes a default administrator account.
+
+| Field | Value |
+|---|---|
+| Username | `admin` |
+| Password | `admin123` |
+| Full Name | Store Owner |
+
+**Note:** The password is stored as a bcrypt hash in the database. Change the default credentials before deploying the system.
+
+## 📦 Sample Products
+
+The database includes the following sample products:
+
+- Lucky Me Pancit Canton
+- Lucky Me Instant Noodles
+- Coca-Cola 1.5L
+- Sprite 1.5L
+- Royal Tru-Orange 1.5L
+- C2 Green Tea 500ml
+- Kopiko Coffee 3-in-1
+- Nescafe Classic 3-in-1
+- San Marino Corned Tuna
+- Century Tuna Flakes
+- Argentina Corned Beef
+- Purefoods Hotdog 1kg
+- Gardenia Bread
+- Egg (per piece)
+- Rice (per kilo)
+- Bath Soap
+- Colgate Toothpaste
+- Safeguard Soap
+- Detergent Powder
+- Matches
+- Candle
+- Battery AA
+- Load Card 50
+- Load Card 100
+- Load Card 200
+
+## ⚙️ Installation and Setup
+
+Follow these steps to install the database:
+
+### Step 1: Install MySQL
+
+Install one of the following tools:
+
+- XAMPP
+- MySQL Server
+- MySQL Workbench
+
+### Step 2: Start MySQL
+
+If you are using XAMPP:
+
+1. Open XAMPP Control Panel.
+2. Start Apache (if using phpMyAdmin).
+3. Start MySQL.
+
+### Step 3: Create the Database
+
+1. Open phpMyAdmin or MySQL Workbench.
+2. Open the SQL query editor.
+3. Copy the SQL database script.
+4. Paste the script into the query editor.
+5. Execute the SQL script.
+
+The database will automatically create:
+
+- Database: `rr_sari_sari_pos`
+- Users table
+- Products table
+- Transactions table
+- Transaction items table
+- Default administrator account
+- 25 sample products
+
+### Step 4: Verify the Database
+
+Run the following SQL commands to check whether the tables were successfully created:
+
+```sql
 USE rr_sari_sari_pos;
 
--- Users table (simple login)
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    full_name VARCHAR(100) DEFAULT 'Staff',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+SHOW TABLES;
 
--- Default login: username = admin | password = admin123
-INSERT INTO users (username, password, full_name) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Store Owner');
+SELECT * FROM users;
+SELECT * FROM products;
+SELECT * FROM transactions;
+SELECT * FROM transaction_items;
+```
 
--- Products table
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    stock INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+## 🔗 Database Relationships
 
--- Transactions (header)
-CREATE TABLE transactions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    transaction_code VARCHAR(20) NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    payment_amount DECIMAL(10,2) NOT NULL,
-    change_amount DECIMAL(10,2) NOT NULL,
-    transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    notes VARCHAR(255) DEFAULT NULL
-);
+The database uses the following relationship:
 
--- Transaction items (details)
-CREATE TABLE transaction_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    transaction_id INT NOT NULL,
-    product_id INT NULL,
-    product_name VARCHAR(100) NOT NULL,
-    quantity INT NOT NULL,
-    unit_price DECIMAL(10,2) NOT NULL,
-    subtotal DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (transaction_id) REFERENCES transactions(id) ON DELETE CASCADE
-);
+- One transaction can contain multiple transaction items.
+- Each transaction item belongs to one transaction.
+- Deleting a transaction automatically deletes its associated transaction items.
 
--- Sample products
-INSERT INTO products (name, price, stock) VALUES
-('Lucky Me Pancit Canton', 15.00, 50),
-('Lucky Me Instant Noodles', 12.00, 40),
-('Coca-Cola 1.5L', 65.00, 20),
-('Sprite 1.5L', 65.00, 15),
-('Royal Tru-Orange 1.5L', 65.00, 15),
-('C2 Green Tea 500ml', 25.00, 30),
-('Kopiko Coffee 3-in-1', 8.00, 100),
-('Nescafe Classic 3-in-1', 10.00, 80),
-('San Marino Corned Tuna', 28.00, 25),
-('Century Tuna Flakes', 32.00, 20),
-('Argentina Corned Beef', 45.00, 15),
-('Purefoods Hotdog 1kg', 180.00, 10),
-('Gardenia Bread', 55.00, 12),
-('Egg (per piece)', 8.00, 60),
-('Rice (per kilo)', 55.00, 30),
-('Sabon (Bath Soap)', 25.00, 20),
-('Colgate Toothpaste', 45.00, 15),
-('Safeguard Soap', 30.00, 25),
-('Detergent Powder (small)', 15.00, 40),
-('Matches (box)', 5.00, 50),
-('Candle (pcs)', 10.00, 30),
-('Battery AA (pair)', 35.00, 20),
-('Load Card 50', 50.00, 100),
-('Load Card 100', 100.00, 50),
-('Load Card 200', 200.00, 30);
+**Foreign Key:**
+
+```sql
+FOREIGN KEY (transaction_id)
+REFERENCES transactions(id)
+ON DELETE CASCADE
+```
+
+## 📊 Database Information
+
+| Property | Details |
+|---|---|
+| Project Name | RR Sari-Sari Store POS |
+| Database Name | rr_sari_sari_pos |
+| Database Type | Relational Database |
+| DBMS | MySQL |
+| Tables | 4 |
+| Sample Products | 25 |
+| Default User | admin |
+
+## 👨‍💻 Developer
+
+**Project:** RR Sari-Sari Store POS System  
+**Module:** Database Management  
+**Purpose:** Point of Sale and Inventory Management
+
+## 📄 License
+
+This project is intended for educational and small-business use. You may modify and improve the database according to your project requirements.
+
+---
+
+**RR Sari-Sari Store POS Database**  
+*Making store transactions and inventory management easier!*
